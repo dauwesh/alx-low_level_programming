@@ -1,23 +1,31 @@
-#include <stdio.h>
+#include "hash_tables.h"
 
-void hash_table_print(const hash_table_t *ht) {
-    if (ht == NULL) {
-        return; // Invalid input
-    }
+/**
+ * hash_table_print - function to print the key:value from ht
+ * @ht: pointer to hash table
+ *
+ */
+void hash_table_print(const hash_table_t *ht)
+{
+	unsigned long int i = 0;
+	hash_node_t  *bucket;
+	int not_fin = 0;
 
-    printf("{\n");
-    for (unsigned long int i = 0; i < ht->size; i++) {
-        hash_node_t *current = ht->array[i];
-        while (current != NULL) {
-            printf("'%s': '%s'", current->key, current->value);
-            if (current->next != NULL) {
-                printf(", ");
-            }
-            current = current->next;
-        }
-        if (ht->array[i] != NULL) {
-            printf("\n");
-        }
-    }
-    printf("}\n");
+	if (!ht)
+		return;
+
+	printf("{");
+	for (i = 0; i < ht->size; i++)
+	{
+		bucket = ht->array[i];
+		while (bucket)
+		{
+			if (not_fin)
+				printf(", ");
+			printf("'%s': '%s'", bucket->key, bucket->value);
+			not_fin = 1;
+			bucket = bucket->next;
+		}
+	}
+	printf("}\n");
 }
